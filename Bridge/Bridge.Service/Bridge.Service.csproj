@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bridge.Data\Bridge.Data.csproj" />
+    <ProjectReference Include="..\Bridge.Model\Bridge.Model.csproj" />
+    <ProjectReference Include="..\Bridge.Util\Bridge.Util.csproj" />
+  </ItemGroup>
+
+</Project>
