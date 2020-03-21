@@ -16,6 +16,7 @@ namespace Bridge.ViewModels
         public String BannerPath { get; set; }
         public double Star { get; set; }
         public long CategoryId { get; set; }
+        public long GenderId { get; set; }
     }
 
     class ColorVM

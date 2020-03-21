@@ -18,6 +18,7 @@ namespace Bridge.ViewModels
     {
         public String Name { get; set; }
         public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 
     public class CollectionProductCM

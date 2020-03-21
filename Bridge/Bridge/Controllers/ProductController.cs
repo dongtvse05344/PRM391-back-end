@@ -90,7 +90,6 @@ namespace Bridge.Controllers
             foreach (var product in products)
             {
                 ProductVM item = product.Adapt<ProductVM>();
-                item.Description = "";
                 item.BannerPath = product.Images.FirstOrDefault(p => p.IsHighLight).FilePath;
                 float? star = product.OrderDetails.Sum(_ => _.Star);
                 if(star != null && star > 0)
