@@ -42,7 +42,10 @@ namespace Bridge.Controllers
             var collection = model.Adapt<Collection>();
             _collectionService.CreateCollection(collection);
             _collectionService.SaveChanges();
-            return Ok();
+            return StatusCode(201, new
+            {
+                Id = collection.Id
+            });
         }
 
         [HttpPost("Admin/Products")]
