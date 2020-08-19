@@ -8,10 +8,6 @@ namespace Bridge.Model
 {
     public class Product
     {
-        public Product()
-        {
-            Colors = new List<ProductColor>();
-        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
@@ -23,15 +19,10 @@ namespace Bridge.Model
         public long CategoryId { get; set; }
         public int Status { get; set; }
         public long GenderId { get; set; }
-        [ForeignKey("GenderId")]
-        public virtual Gender Gender { get; set; }
         public DateTime DateSale { get; set; }
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
         public virtual ICollection<ProductImage> Images { get; set; }
-        public virtual ICollection<ProductColor> Colors { get; set; }
-        public virtual ICollection<CollectionProduct> CollectionProducts { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
     }
 }

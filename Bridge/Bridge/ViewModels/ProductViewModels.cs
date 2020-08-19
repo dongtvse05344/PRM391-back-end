@@ -36,7 +36,6 @@ namespace Bridge.ViewModels
         public double CurrentPrice { get; set; }
         public double OldPrice { get; set; }
         public bool IsSale { get; set; }
-        public List<long> ColorIds { get; set; }
         public long GenderId { get; set; }
         public long CategoryId { get; set; }
         public DateTime DateSale { get; set; }

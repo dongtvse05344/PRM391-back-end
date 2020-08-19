@@ -62,9 +62,6 @@ namespace Bridge
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductService, ProductService>();
 
-            services.AddTransient<ICollectionRepository, CollectionRepository>();
-            services.AddTransient<ICollectionService, CollectionService>();
-
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderService, OrderService>();
 
@@ -76,12 +73,6 @@ namespace Bridge
 
             services.AddTransient<IDeliveryStatusRepository, DeliveryStatusRepository>();
             services.AddTransient<IDeliveryStatusService, DeliveryStatusService>();
-
-            services.AddTransient<IGenderRepository, GenderRepository>();
-            services.AddTransient<IGenderService, GenderService>();
-
-            services.AddTransient<IColorRepository, ColorRepository>();
-            services.AddTransient<IColorService, ColorService>();
 
             services.AddTransient<IUserAddressRepository, UserAddressRepository>();
             services.AddTransient<IUserAddressService, UserAddressService>();

@@ -16,13 +16,11 @@ namespace Bridge.Controllers
     {
         private readonly IFileService _fileService;
         private readonly IProductService _productService;
-        private readonly ICollectionService _collectionService;
 
-        public FileController(IFileService fileService, IProductService productService,ICollectionService collectionService)
+        public FileController(IFileService fileService, IProductService productService)
         {
             _fileService = fileService;
             _productService = productService;
-            _collectionService = collectionService;
         }
 
         [HttpGet("Image")]
@@ -53,16 +51,5 @@ namespace Bridge.Controllers
             return Ok();
         }
 
-        [HttpPost("CollectionImage")]
-        public async Task<ActionResult> UploadCollectionImage([FromForm]IFormFile image, long id, bool isHighlight)
-        {
-            var collection = _collectionService.GetCollection(id);
-            if (collection == null || collection.Banner != null) return BadRequest();
-
-            var filePath = await _fileService.SaveFile(FilePath.Collection, image);
-            collection.Banner = filePath;
-            _productService.SaveChanges();
-            return Ok();
-        }
     }
 }

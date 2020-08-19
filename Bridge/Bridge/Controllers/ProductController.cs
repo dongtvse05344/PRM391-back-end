@@ -110,13 +110,6 @@ namespace Bridge.Controllers
         {
             var product = model.Adapt<Product>();
             product.Status = (int)ProductStatus.available;
-            foreach (var color in model.ColorIds)
-            {
-                product.Colors.Add(new ProductColor { 
-                    ProductId = product.Id,
-                    ColorId = color
-                });
-            }
             _productService.CreateProduct(product);
             _productService.SaveChanges();
             return StatusCode(201, new
@@ -131,15 +124,6 @@ namespace Bridge.Controllers
             var product = _productService.GetProduct(model.Id);
             if (product == null) return NotFound();
             product = model.Adapt(product);
-            product.Colors = new List<ProductColor>();
-            foreach (var color in model.ColorIds)
-            {
-                product.Colors.Add(new ProductColor
-                {
-                    ProductId = product.Id,
-                    ColorId = color
-                });
-            }
             _productService.SaveChanges();
             return StatusCode(201, new
             {
@@ -179,28 +163,6 @@ namespace Bridge.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}/Size")]
-        public ActionResult GetSizes(long id)
-        {
-            var product = _productService.GetProduct(id);
-            if (product == null) return NotFound();
-            List<String> result = product.Gender.Sizes
-                                          .Select(_ => _.Name)
-                                          .ToList();
-            return Ok(result);
-        }
-
-        [HttpGet("{id}/Color")]
-        public ActionResult GetColors(long id)
-        {
-            var product = _productService.GetProduct(id);
-            if (product == null) return NotFound();
-            List<ColorVM> result = product.Colors
-                                          .Select(_ => _.Color)
-                                          .Select(_ => _.Adapt<ColorVM>())
-                                          .ToList();
-            return Ok(result);
-        }
 
         [HttpGet("{id}/Rate")]
         public ActionResult GetRates(long id)

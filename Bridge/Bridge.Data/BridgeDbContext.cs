@@ -21,13 +21,7 @@ namespace Bridge.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
-        public DbSet<Gender> Genders { get; set; }
-        public DbSet<Size> Sizes { get; set; }
-        public DbSet<Color> Colors { get; set; }
-        public DbSet<ProductColor> ProductColors { get; set; }
 
-        public DbSet<Collection> Collections { get; set; }
-        public DbSet<CollectionProduct> CollectionProducts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
@@ -36,14 +30,6 @@ namespace Bridge.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ProductColor>(build =>
-            {
-                build.HasKey(t => new { t.ColorId, t.ProductId });
-            });
-            builder.Entity<CollectionProduct>(build =>
-            {
-                build.HasKey(t => new { t.ProductId, t.CollectionId });
-            });
             base.OnModelCreating(builder);
         }
 
