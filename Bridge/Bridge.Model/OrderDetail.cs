@@ -13,11 +13,10 @@ namespace Bridge.Model
         public long Id { get; set; }
         public long ProductId { get; set; }
         public long OrderId { get; set; }
-        public String Size { get; set; }
-        public String Color { get; set; }
+        public String Smell { get; set; }
         public int Quantity { get; set; }
         public String Comment { get; set; }
-        public float?  Star { get; set; }
+        public float? Star { get; set; }
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
     }

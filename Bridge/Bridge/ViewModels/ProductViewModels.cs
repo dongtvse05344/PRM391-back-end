@@ -16,17 +16,6 @@ namespace Bridge.ViewModels
         public String BannerPath { get; set; }
         public double Star { get; set; }
         public long CategoryId { get; set; }
-        public long GenderId { get; set; }
-    }
-
-    class ColorVM
-    {
-        public long Id { get; set; }
-        public String Name { get; set; }
-        public int R { get; set; }
-        public int G { get; set; }
-        public int B { get; set; }
-        public int O { get; set; }
     }
 
     public class ProductCM
@@ -36,7 +25,6 @@ namespace Bridge.ViewModels
         public double CurrentPrice { get; set; }
         public double OldPrice { get; set; }
         public bool IsSale { get; set; }
-        public long GenderId { get; set; }
         public long CategoryId { get; set; }
         public DateTime DateSale { get; set; }
     }

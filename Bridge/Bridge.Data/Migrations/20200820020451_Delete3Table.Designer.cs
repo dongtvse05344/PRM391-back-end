@@ -4,14 +4,16 @@ using Bridge.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bridge.Data.Migrations
 {
     [DbContext(typeof(BridgeDbContext))]
-    partial class BridgeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200820020451_Delete3Table")]
+    partial class Delete3Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,6 +26,8 @@ namespace Bridge.Data.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Logo");
 
                     b.Property<string>("Name");
 
@@ -141,6 +145,8 @@ namespace Bridge.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Color");
+
                     b.Property<string>("Comment");
 
                     b.Property<long>("OrderId");
@@ -149,7 +155,7 @@ namespace Bridge.Data.Migrations
 
                     b.Property<int>("Quantity");
 
-                    b.Property<string>("Smell");
+                    b.Property<string>("Size");
 
                     b.Property<float?>("Star");
 
@@ -189,11 +195,15 @@ namespace Bridge.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CategoryId");
+
                     b.Property<double>("CurrentPrice");
 
                     b.Property<DateTime>("DateSale");
 
                     b.Property<string>("Description");
+
+                    b.Property<long>("GenderId");
 
                     b.Property<bool>("IsSale");
 
@@ -203,13 +213,9 @@ namespace Bridge.Data.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<long>("SubCategoryId");
-
-                    b.Property<string>("Summary");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("SubCategoryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -233,40 +239,6 @@ namespace Bridge.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImages");
-                });
-
-            modelBuilder.Entity("Bridge.Model.ProductSmell", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.Property<long>("ProductId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductSmells");
-                });
-
-            modelBuilder.Entity("Bridge.Model.SubCategory", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("CategoryId");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("SubCategories");
                 });
 
             modelBuilder.Entity("Bridge.Model.UserAddress", b =>
@@ -437,9 +409,9 @@ namespace Bridge.Data.Migrations
 
             modelBuilder.Entity("Bridge.Model.Product", b =>
                 {
-                    b.HasOne("Bridge.Model.SubCategory", "SubCategory")
+                    b.HasOne("Bridge.Model.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("SubCategoryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -448,22 +420,6 @@ namespace Bridge.Data.Migrations
                     b.HasOne("Bridge.Model.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Bridge.Model.ProductSmell", b =>
-                {
-                    b.HasOne("Bridge.Model.Product", "Product")
-                        .WithMany("Smells")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Bridge.Model.SubCategory", b =>
-                {
-                    b.HasOne("Bridge.Model.Category", "Category")
-                        .WithMany("SubCategories")
-                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

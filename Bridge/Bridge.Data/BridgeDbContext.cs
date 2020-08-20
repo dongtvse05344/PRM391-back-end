@@ -15,12 +15,14 @@ namespace Bridge.Data
             .UseSqlServer(@"Server=tcp:dongtv.database.windows.net;Database=Bridge;user id=dongtv;password=zaq@123123;Trusted_Connection=True;Integrated Security=false;")
             .Options)
         {
-            
+
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductSmell> ProductSmells { get; set; }
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -33,7 +35,7 @@ namespace Bridge.Data
             base.OnModelCreating(builder);
         }
 
-            public void Commit()
+        public void Commit()
         {
             base.SaveChanges();
         }

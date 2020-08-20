@@ -59,6 +59,7 @@ namespace Bridge.Controllers
                                 )
                     .OrderByDescending(p => p.DateSale);
             List<ProductVM> result = new List<ProductVM>();
+            if (products == null) return Ok(result);
             foreach (var product in products)
             {
                 ProductVM item = product.Adapt<ProductVM>();
