@@ -52,6 +52,7 @@ namespace Bridge.Controllers
         [HttpGet()]
         public ActionResult Gets(String name)
         {
+            name = name == null ? "" : name;
             var products = _productService.GetProducts()
                     .Where(p => p.DateSale <= DateTime.Now
                                 && p.Status == (int)ProductStatus.available
