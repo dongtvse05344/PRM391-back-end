@@ -35,13 +35,7 @@ namespace Bridge.Controllers
         {
             var category = _categoryService.GetCategory(id);
             if (category == null) return NotFound();
-            var products = new List<Product>();
-            category.SubCategories.ToList().ForEach(s =>
-            {
-                var a = s.Products
-                .Where(p => p.DateSale <= DateTime.Now && p.Status == (int)ProductStatus.available);
-                products.AddRange(a);
-            });
+            var products = category.Products;
             List<ProductVM> result = new List<ProductVM>();
             foreach (var product in products)
             {

@@ -20,9 +20,9 @@ namespace Bridge.Model
         public int Status { get; set; }
         public DateTime DateSale { get; set; }
 
-        public long SubCategoryId { get; set; }
-        [ForeignKey("SubCategoryId")]
-        public virtual SubCategory SubCategory { get; set; }
+        public long CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
         public virtual ICollection<ProductImage> Images { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ProductSmell> Smells { get; set; }
