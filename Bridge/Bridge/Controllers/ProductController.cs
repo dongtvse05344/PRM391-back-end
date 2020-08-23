@@ -49,6 +49,32 @@ namespace Bridge.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Explore")]
+        public ActionResult GetNewBrandExplore()
+        {
+            var productNewBard = _productService.GetProducts()
+                    .Where(p => p.DateSale <= DateTime.Now && p.Status == (int)ProductStatus.available)
+                    .OrderByDescending(p => p.DateSale).Skip(5).Take(5);
+            List<ProductVM> result = new List<ProductVM>();
+            foreach (var product in productNewBard)
+            {
+                ProductVM item = product.Adapt<ProductVM>();
+                item.Description = "";
+                item.BannerPath = product.Images.FirstOrDefault(p => p.IsHighLight).FilePath;
+                float? star = product.OrderDetails.Sum(_ => _.Star);
+                if (star != null && star > 0)
+                {
+                    item.Star = star.Value / product.OrderDetails.Count;
+                }
+                else
+                {
+                    item.Star = 5.0;
+                }
+                result.Add(item);
+            }
+            return Ok(result);
+        }
+
         [HttpGet()]
         public ActionResult Gets(String name)
         {
