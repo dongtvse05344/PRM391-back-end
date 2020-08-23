@@ -11,8 +11,8 @@ namespace Bridge.Data
     {
         public BridgeDbContext() : base((new DbContextOptionsBuilder())
             .UseLazyLoadingProxies()
-            .UseSqlServer(@"Server=localhost;Database=Bridge;user id=sa;password=1234;Trusted_Connection=True;Integrated Security=false;")
             //.UseSqlServer(@"Server=tcp:dongtv.database.windows.net;Database=Bridge;user id=dongtv;password=zaq@123123;Trusted_Connection=True;Integrated Security=false;")
+            .UseSqlServer(@"Server=45.119.83.107;Database=Bridge;user id=sa;password=sa@123456;Trusted_Connection=True;Integrated Security=false;")
             .Options)
         {
 

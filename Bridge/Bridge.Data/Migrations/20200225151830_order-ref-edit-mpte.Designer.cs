@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bridge.Data.Migrations
 {
     [DbContext(typeof(BridgeDbContext))]
-    [Migration("20200818093009_init")]
-    partial class init
+    [Migration("20200225151830_order-ref-edit-mpte")]
+    partial class orderrefeditmpte
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,8 +129,6 @@ namespace Bridge.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("DeviceId");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -186,15 +184,9 @@ namespace Bridge.Data.Migrations
 
                     b.Property<string>("BuyerId");
 
-                    b.Property<int>("CurrentStatus");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Note");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("Receiver");
 
                     b.Property<double>("TotalAmount");
 
@@ -339,29 +331,6 @@ namespace Bridge.Data.Migrations
                     b.HasIndex("GenderId");
 
                     b.ToTable("Sizes");
-                });
-
-            modelBuilder.Entity("Bridge.Model.UserAddress", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address");
-
-                    b.Property<bool>("IsHome");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserAddresses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -560,13 +529,6 @@ namespace Bridge.Data.Migrations
                         .WithMany("Sizes")
                         .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Bridge.Model.UserAddress", b =>
-                {
-                    b.HasOne("Bridge.Model.MyUser", "MyUser")
-                        .WithMany("Addresses")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
