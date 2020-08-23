@@ -54,6 +54,7 @@ namespace Bridge.Controllers
             var collection = _collectionService.GetCollection(model.Id);
             if (collection == null) return BadRequest();
             if (collection.CollectionProducts == null) collection.CollectionProducts = new List<CollectionProduct>();
+            collection.CollectionProducts.Clear();
             foreach (var productId in model.ProductIds)
             {
                 collection.CollectionProducts.Add(new CollectionProduct
