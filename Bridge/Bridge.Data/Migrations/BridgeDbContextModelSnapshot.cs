@@ -34,6 +34,38 @@ namespace Bridge.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Bridge.Model.Collection", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Banner");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Collections");
+                });
+
+            modelBuilder.Entity("Bridge.Model.CollectionProduct", b =>
+                {
+                    b.Property<long>("ProductId");
+
+                    b.Property<long>("CollectionId");
+
+                    b.HasKey("ProductId", "CollectionId");
+
+                    b.HasIndex("CollectionId");
+
+                    b.ToTable("CollectionProducts");
+                });
+
             modelBuilder.Entity("Bridge.Model.DeliveryStatus", b =>
                 {
                     b.Property<long>("Id")
@@ -46,7 +78,20 @@ namespace Bridge.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryStatuses");
+                    b.ToTable("DeliveryStatus");
+                });
+
+            modelBuilder.Entity("Bridge.Model.Gender", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genders");
                 });
 
             modelBuilder.Entity("Bridge.Model.MyUser", b =>
@@ -199,6 +244,8 @@ namespace Bridge.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<long>("GenderId");
+
                     b.Property<bool>("IsSale");
 
                     b.Property<string>("Name");
@@ -212,6 +259,8 @@ namespace Bridge.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("GenderId");
 
                     b.ToTable("Products");
                 });
@@ -239,19 +288,43 @@ namespace Bridge.Data.Migrations
 
             modelBuilder.Entity("Bridge.Model.ProductSmell", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
+                    b.Property<long>("SmellId");
 
                     b.Property<long>("ProductId");
 
-                    b.HasKey("Id");
+                    b.HasKey("SmellId", "ProductId");
 
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductSmells");
+                });
+
+            modelBuilder.Entity("Bridge.Model.Size", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("GenderId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenderId");
+
+                    b.ToTable("Sizes");
+                });
+
+            modelBuilder.Entity("Bridge.Model.Smell", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Smells");
                 });
 
             modelBuilder.Entity("Bridge.Model.UserAddress", b =>
@@ -274,7 +347,7 @@ namespace Bridge.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserAddresses");
+                    b.ToTable("UserAddress");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -387,6 +460,19 @@ namespace Bridge.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Bridge.Model.CollectionProduct", b =>
+                {
+                    b.HasOne("Bridge.Model.Collection", "Collection")
+                        .WithMany("ProductCollections")
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bridge.Model.Product", "Product")
+                        .WithMany("ProductCollections")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Bridge.Model.Order", b =>
                 {
                     b.HasOne("Bridge.Model.MyUser", "MyUser")
@@ -426,6 +512,11 @@ namespace Bridge.Data.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bridge.Model.Gender", "Gender")
+                        .WithMany("Products")
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Bridge.Model.ProductImage", b =>
@@ -439,8 +530,21 @@ namespace Bridge.Data.Migrations
             modelBuilder.Entity("Bridge.Model.ProductSmell", b =>
                 {
                     b.HasOne("Bridge.Model.Product", "Product")
-                        .WithMany("Smells")
+                        .WithMany("ProductSmells")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bridge.Model.Smell", "Smell")
+                        .WithMany("ProductSmells")
+                        .HasForeignKey("SmellId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Bridge.Model.Size", b =>
+                {
+                    b.HasOne("Bridge.Model.Gender", "Gender")
+                        .WithMany("Sizes")
+                        .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

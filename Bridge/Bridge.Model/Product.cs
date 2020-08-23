@@ -25,6 +25,10 @@ namespace Bridge.Model
         public virtual Category Category { get; set; }
         public virtual ICollection<ProductImage> Images { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        public virtual ICollection<ProductSmell> Smells { get; set; }
+        public virtual ICollection<ProductSmell> ProductSmells { get; set; }
+        public virtual ICollection<CollectionProduct> ProductCollections { get; set; }
+        public long GenderId { get; set; }
+        [ForeignKey("GenderId")]
+        public virtual Gender Gender { get; set; }
     }
 }
