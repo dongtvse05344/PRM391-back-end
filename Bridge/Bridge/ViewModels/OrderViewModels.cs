@@ -40,7 +40,7 @@ namespace Bridge.ViewModels
         public long ProductId { get; set; }
         public String ProductName { get; set; }
         public String Size { get; set; }
-        public String Color { get; set; }
+        public String Smell { get; set; }
         public int Quantity { get; set; }
         public String Image { get; set; }
     }

@@ -4,14 +4,16 @@ using Bridge.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bridge.Data.Migrations
 {
     [DbContext(typeof(BridgeDbContext))]
-    partial class BridgeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200823042330_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,6 +228,8 @@ namespace Bridge.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Color");
+
                     b.Property<string>("Comment");
 
                     b.Property<long>("OrderId");
@@ -235,8 +239,6 @@ namespace Bridge.Data.Migrations
                     b.Property<int>("Quantity");
 
                     b.Property<string>("Size");
-
-                    b.Property<string>("Smell");
 
                     b.Property<float?>("Star");
 
@@ -326,15 +328,19 @@ namespace Bridge.Data.Migrations
 
             modelBuilder.Entity("Bridge.Model.ProductSmell", b =>
                 {
-                    b.Property<long>("SmellId");
+                    b.Property<long>("ColorId");
 
                     b.Property<long>("ProductId");
 
-                    b.HasKey("SmellId", "ProductId");
+                    b.Property<long?>("SmellId");
+
+                    b.HasKey("ColorId", "ProductId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductSmells");
+                    b.HasIndex("SmellId");
+
+                    b.ToTable("ProductColors");
                 });
 
             modelBuilder.Entity("Bridge.Model.Size", b =>
@@ -374,7 +380,7 @@ namespace Bridge.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Smell");
+                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("Bridge.Model.UserAddress", b =>
@@ -580,14 +586,13 @@ namespace Bridge.Data.Migrations
             modelBuilder.Entity("Bridge.Model.ProductSmell", b =>
                 {
                     b.HasOne("Bridge.Model.Product", "Product")
-                        .WithMany("Smells")
+                        .WithMany("Colors")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Bridge.Model.Smell", "Smell")
                         .WithMany("ProductSmells")
-                        .HasForeignKey("SmellId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SmellId");
                 });
 
             modelBuilder.Entity("Bridge.Model.Size", b =>

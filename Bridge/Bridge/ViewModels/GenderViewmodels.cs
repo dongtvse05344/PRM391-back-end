@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace Bridge.ViewModels
 {
-    public class CategoryVM
+    public class GenderVM
     {
         public long Id { get; set; }
         public String Name { get; set; }
-        public String Logo { get; set; }
     }
 }

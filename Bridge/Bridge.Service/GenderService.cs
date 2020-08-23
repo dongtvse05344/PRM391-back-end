@@ -8,29 +8,29 @@ using System.Text;
 
 namespace Bridge.Service
 {
-    public interface ICategoryService
+    public interface IGenderService
     {
-        IQueryable<Category> GetCategories();
-        Category GetCategory(long id);
+        IQueryable<Gender> GetGenders();
+        Gender GetGender(long id);
         void SaveChanges();
     }
-    public class CategoryService : ICategoryService
+    public class GenderService : IGenderService
     {
-        private readonly ICategoryRepository _repository;
+        private readonly IGenderRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryService(ICategoryRepository repository, IUnitOfWork unitOfWork)
+        public GenderService(IGenderRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
         }
 
-        public IQueryable<Category> GetCategories()
+        public IQueryable<Gender> GetGenders()
         {
             return _repository.GetAll();
         }
 
-        public Category GetCategory(long id)
+        public Gender GetGender(long id)
         {
             return _repository.GetById(id);
         }

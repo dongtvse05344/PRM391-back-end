@@ -11,10 +11,10 @@ namespace Bridge.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public string Name { get; set; }
+        public String Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string Banner { get; set; }
-        public virtual ICollection<CollectionProduct> ProductCollections { get; set; }
+        public String Banner { get; set; }
+        public virtual ICollection<CollectionProduct> CollectionProducts { get; set; }
     }
 }

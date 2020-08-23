@@ -11,7 +11,8 @@ namespace Bridge.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public string Name { get; set; }
+        public String Name { get; set; }
+        public String Standard { get; set; }
         public long GenderId { get; set; }
         [ForeignKey("GenderId")]
         public virtual Gender Gender { get; set; }

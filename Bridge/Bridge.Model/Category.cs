@@ -12,7 +12,7 @@ namespace Bridge.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public String Name { get; set; }
-        public String Logo { get; set; }
+        public String  Logo { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

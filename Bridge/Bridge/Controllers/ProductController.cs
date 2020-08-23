@@ -59,7 +59,6 @@ namespace Bridge.Controllers
                                 )
                     .OrderByDescending(p => p.DateSale);
             List<ProductVM> result = new List<ProductVM>();
-            if (products == null) return Ok(result);
             foreach (var product in products)
             {
                 ProductVM item = product.Adapt<ProductVM>();
@@ -111,6 +110,13 @@ namespace Bridge.Controllers
         {
             var product = model.Adapt<Product>();
             product.Status = (int)ProductStatus.available;
+            foreach (var smell in model.SmellIds)
+            {
+                product.Smells.Add(new ProductSmell { 
+                    ProductId = product.Id,
+                    SmellId = smell
+                });
+            }
             _productService.CreateProduct(product);
             _productService.SaveChanges();
             return StatusCode(201, new
@@ -125,6 +131,15 @@ namespace Bridge.Controllers
             var product = _productService.GetProduct(model.Id);
             if (product == null) return NotFound();
             product = model.Adapt(product);
+            product.Smells = new List<ProductSmell>();
+            foreach (var smell in model.SmellIds)
+            {
+                product.Smells.Add(new ProductSmell
+                {
+                    ProductId = product.Id,
+                    SmellId = smell
+                });
+            }
             _productService.SaveChanges();
             return StatusCode(201, new
             {
@@ -164,6 +179,28 @@ namespace Bridge.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}/Size")]
+        public ActionResult GetSizes(long id)
+        {
+            var product = _productService.GetProduct(id);
+            if (product == null) return NotFound();
+            List<String> result = product.Gender.Sizes
+                                          .Select(_ => _.Name)
+                                          .ToList();
+            return Ok(result);
+        }
+
+        [HttpGet("{id}/Smell")]
+        public ActionResult GetSmells(long id)
+        {
+            var product = _productService.GetProduct(id);
+            if (product == null) return NotFound();
+            List<SmellVM> result = product.Smells
+                                          .Select(_ => _.Smell)
+                                          .Select(_ => _.Adapt<SmellVM>())
+                                          .ToList();
+            return Ok(result);
+        }
 
         [HttpGet("{id}/Rate")]
         public ActionResult GetRates(long id)

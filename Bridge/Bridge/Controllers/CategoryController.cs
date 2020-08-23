@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bridge.Model;
 using Bridge.Service;
 using Bridge.Util;
 using Bridge.ViewModels;
@@ -26,7 +25,7 @@ namespace Bridge.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            var categories = _categoryService.GetCategories().Select(c => c.Adapt<CategoryVM>());
+            var categories = _categoryService.GetCategories().Select(c=>c.Adapt<CategoryVM>());
             return Ok(categories);
         }
 
@@ -35,7 +34,8 @@ namespace Bridge.Controllers
         {
             var category = _categoryService.GetCategory(id);
             if (category == null) return NotFound();
-            var products = category.Products;
+            var products = category.Products
+                .Where(p => p.DateSale <= DateTime.Now && p.Status == (int)ProductStatus.available);
             List<ProductVM> result = new List<ProductVM>();
             foreach (var product in products)
             {
@@ -46,18 +46,6 @@ namespace Bridge.Controllers
                 result.Add(item);
             }
             return Ok(result);
-        }
-
-        [HttpPost("Admin")]
-        public ActionResult AdminPost(CategoryCM model)
-        {
-            var category = model.Adapt<Category>();
-            _categoryService.CreateCategory(category);
-            _categoryService.SaveChanges();
-            return StatusCode(201, new
-            {
-                Id = category.Id
-            });
         }
     }
 }

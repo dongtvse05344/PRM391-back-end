@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bridge.Data.Migrations
 {
     [DbContext(typeof(BridgeDbContext))]
-    [Migration("20200823034308_RevertTVDModel")]
-    partial class RevertTVDModel
+    [Migration("20200823043044_DeleteAllColor")]
+    partial class DeleteAllColor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,44 @@ namespace Bridge.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Logo = "files/images/categories/giam-mo.png",
+                            Name = "Giảm Mỡ"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Logo = "files/images/categories/phuc-hoi.png",
+                            Name = "Phục hồi"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Logo = "files/images/categories/sinh-ly.png",
+                            Name = "Sinh lý"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Logo = "files/images/categories/tang-can-co.png",
+                            Name = "Tăng cân & cơ"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            Logo = "files/images/categories/tang-co.png",
+                            Name = "Tăng cơ"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            Logo = "files/images/categories/tang-suc.png",
+                            Name = "Tăng sức"
+                        });
                 });
 
             modelBuilder.Entity("Bridge.Model.Collection", b =>
@@ -80,7 +118,7 @@ namespace Bridge.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryStatus");
+                    b.ToTable("DeliveryStatuses");
                 });
 
             modelBuilder.Entity("Bridge.Model.Gender", b =>
@@ -198,6 +236,8 @@ namespace Bridge.Data.Migrations
 
                     b.Property<int>("Quantity");
 
+                    b.Property<string>("Size");
+
                     b.Property<string>("Smell");
 
                     b.Property<float?>("Star");
@@ -256,8 +296,6 @@ namespace Bridge.Data.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<string>("Summary");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -311,6 +349,8 @@ namespace Bridge.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("Standard");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GenderId");
@@ -324,9 +364,19 @@ namespace Bridge.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("B");
+
+                    b.Property<int>("G");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("O");
+
+                    b.Property<int>("R");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Smells");
+                    b.ToTable("Smell");
                 });
 
             modelBuilder.Entity("Bridge.Model.UserAddress", b =>
@@ -349,7 +399,7 @@ namespace Bridge.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserAddress");
+                    b.ToTable("UserAddresses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -465,12 +515,12 @@ namespace Bridge.Data.Migrations
             modelBuilder.Entity("Bridge.Model.CollectionProduct", b =>
                 {
                     b.HasOne("Bridge.Model.Collection", "Collection")
-                        .WithMany("ProductCollections")
+                        .WithMany("CollectionProducts")
                         .HasForeignKey("CollectionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Bridge.Model.Product", "Product")
-                        .WithMany("ProductCollections")
+                        .WithMany("CollectionProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -532,7 +582,7 @@ namespace Bridge.Data.Migrations
             modelBuilder.Entity("Bridge.Model.ProductSmell", b =>
                 {
                     b.HasOne("Bridge.Model.Product", "Product")
-                        .WithMany("ProductSmells")
+                        .WithMany("Smells")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bridge.Data.Migrations
 {
-    public partial class RevertTVDModel : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,7 +82,24 @@ namespace Bridge.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DeliveryStatus",
+                name: "Colors",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    R = table.Column<int>(nullable: false),
+                    G = table.Column<int>(nullable: false),
+                    B = table.Column<int>(nullable: false),
+                    O = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Colors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DeliveryStatuses",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -92,7 +109,7 @@ namespace Bridge.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeliveryStatus", x => x.Id);
+                    table.PrimaryKey("PK_DeliveryStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,18 +123,6 @@ namespace Bridge.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Smells",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Smells", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,7 +258,7 @@ namespace Bridge.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserAddress",
+                name: "UserAddresses",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -266,9 +271,9 @@ namespace Bridge.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAddress", x => x.Id);
+                    table.PrimaryKey("PK_UserAddresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserAddress_AspNetUsers_UserId",
+                        name: "FK_UserAddresses_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -282,15 +287,14 @@ namespace Bridge.Data.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    Summary = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     CurrentPrice = table.Column<double>(nullable: false),
                     OldPrice = table.Column<double>(nullable: false),
                     IsSale = table.Column<bool>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    DateSale = table.Column<DateTime>(nullable: false),
                     CategoryId = table.Column<long>(nullable: false),
-                    GenderId = table.Column<long>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    GenderId = table.Column<long>(nullable: false),
+                    DateSale = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -316,6 +320,7 @@ namespace Bridge.Data.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
+                    Standard = table.Column<string>(nullable: true),
                     GenderId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -349,9 +354,9 @@ namespace Bridge.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderStatuses_DeliveryStatus_StatusId",
+                        name: "FK_OrderStatuses_DeliveryStatuses_StatusId",
                         column: x => x.StatusId,
-                        principalTable: "DeliveryStatus",
+                        principalTable: "DeliveryStatuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -388,7 +393,8 @@ namespace Bridge.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ProductId = table.Column<long>(nullable: false),
                     OrderId = table.Column<long>(nullable: false),
-                    Smell = table.Column<string>(nullable: true),
+                    Size = table.Column<string>(nullable: true),
+                    Color = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     Star = table.Column<float>(nullable: true)
@@ -408,6 +414,31 @@ namespace Bridge.Data.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductColors",
+                columns: table => new
+                {
+                    ProductId = table.Column<long>(nullable: false),
+                    ColorId = table.Column<long>(nullable: false),
+                    SmellId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductColors", x => new { x.ColorId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_ProductColors_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductColors_Colors_SmellId",
+                        column: x => x.SmellId,
+                        principalTable: "Colors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -432,28 +463,17 @@ namespace Bridge.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ProductSmells",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Logo", "Name" },
+                values: new object[,]
                 {
-                    ProductId = table.Column<long>(nullable: false),
-                    SmellId = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductSmells", x => new { x.SmellId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_ProductSmells_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductSmells_Smells_SmellId",
-                        column: x => x.SmellId,
-                        principalTable: "Smells",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    { 1L, "files/images/categories/giam-mo.png", "Giảm Mỡ" },
+                    { 2L, "files/images/categories/phuc-hoi.png", "Phục hồi" },
+                    { 3L, "files/images/categories/sinh-ly.png", "Sinh lý" },
+                    { 4L, "files/images/categories/tang-can-co.png", "Tăng cân & cơ" },
+                    { 5L, "files/images/categories/tang-co.png", "Tăng cơ" },
+                    { 6L, "files/images/categories/tang-suc.png", "Tăng sức" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -526,6 +546,16 @@ namespace Bridge.Data.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductColors_ProductId",
+                table: "ProductColors",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductColors_SmellId",
+                table: "ProductColors",
+                column: "SmellId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductImages_ProductId",
                 table: "ProductImages",
                 column: "ProductId");
@@ -541,18 +571,13 @@ namespace Bridge.Data.Migrations
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductSmells_ProductId",
-                table: "ProductSmells",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Sizes_GenderId",
                 table: "Sizes",
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserAddress_UserId",
-                table: "UserAddress",
+                name: "IX_UserAddresses_UserId",
+                table: "UserAddresses",
                 column: "UserId");
         }
 
@@ -583,16 +608,16 @@ namespace Bridge.Data.Migrations
                 name: "OrderStatuses");
 
             migrationBuilder.DropTable(
-                name: "ProductImages");
+                name: "ProductColors");
 
             migrationBuilder.DropTable(
-                name: "ProductSmells");
+                name: "ProductImages");
 
             migrationBuilder.DropTable(
                 name: "Sizes");
 
             migrationBuilder.DropTable(
-                name: "UserAddress");
+                name: "UserAddresses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -604,13 +629,13 @@ namespace Bridge.Data.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "DeliveryStatus");
+                name: "DeliveryStatuses");
+
+            migrationBuilder.DropTable(
+                name: "Colors");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Smells");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

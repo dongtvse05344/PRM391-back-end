@@ -11,7 +11,7 @@ namespace Bridge.Data
     {
         public BridgeDbContext() : base((new DbContextOptionsBuilder())
             .UseLazyLoadingProxies()
-            //.UseSqlServer(@"Server=45.119.83.107;Database=Bridge;user id=sa;password=sa@123456;Trusted_Connection=True;Integrated Security=false;")
+            //.UseSqlServer(@"Server=.;Database=Bridge;user id=sa;password=;Trusted_Connection=True;Integrated Security=false;")
             .UseSqlServer(@"Server=tcp:dongtv.database.windows.net;Database=Bridge;user id=dongtv;password=zaq@123123;Trusted_Connection=True;Integrated Security=false;")
             .Options)
         {
@@ -23,7 +23,7 @@ namespace Bridge.Data
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Size> Sizes { get; set; }
-        public DbSet<Smell> Smells { get; set; }
+        public DbSet<Smell> Smell { get; set; }
         public DbSet<ProductSmell> ProductSmells { get; set; }
 
         public DbSet<Collection> Collections { get; set; }
@@ -31,6 +31,8 @@ namespace Bridge.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<DeliveryStatus> DeliveryStatuses { get; set; }
+        public DbSet<UserAddress> UserAddresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,11 +45,49 @@ namespace Bridge.Data
                 build.HasKey(t => new { t.ProductId, t.CollectionId });
             });
             base.OnModelCreating(builder);
+            AutoAddData(builder);
         }
 
+        private void AutoAddData(ModelBuilder builder)
+        {
+            builder.Entity<Category>().HasData(
+                new Category
+                {
+                    Id = 1,
+                    Name = "Giảm Mỡ",
+                    Logo = "files/images/categories/giam-mo.png"
+                }, new Category
+                {
+                    Id = 2,
+                    Name = "Phục hồi",
+                    Logo = "files/images/categories/phuc-hoi.png"
+                }, new Category
+                {
+                    Id = 3,
+                    Name = "Sinh lý",
+                    Logo = "files/images/categories/sinh-ly.png"
+                }, new Category
+                {
+                    Id = 4,
+                    Name = "Tăng cân & cơ",
+                    Logo = "files/images/categories/tang-can-co.png"
+                }, new Category
+                {
+                    Id = 5,
+                    Name = "Tăng cơ",
+                    Logo = "files/images/categories/tang-co.png"
+                }, new Category
+                {
+                    Id = 6,
+                    Name = "Tăng sức",
+                    Logo = "files/images/categories/tang-suc.png"
+                }
+                );
+        }
         public void Commit()
         {
             base.SaveChanges();
         }
+
     }
 }

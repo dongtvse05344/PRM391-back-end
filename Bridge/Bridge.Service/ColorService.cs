@@ -8,29 +8,30 @@ using System.Text;
 
 namespace Bridge.Service
 {
-    public interface ICategoryService
+    
+    public interface ISmellService
     {
-        IQueryable<Category> GetCategories();
-        Category GetCategory(long id);
+        IQueryable<Smell> GetSmells();
+        Smell GetSmell(long id);
         void SaveChanges();
     }
-    public class CategoryService : ICategoryService
+    public class SmellService : ISmellService
     {
-        private readonly ICategoryRepository _repository;
+        private readonly ISmellRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryService(ICategoryRepository repository, IUnitOfWork unitOfWork)
+        public SmellService(ISmellRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
         }
 
-        public IQueryable<Category> GetCategories()
+        public IQueryable<Smell> GetSmells()
         {
             return _repository.GetAll();
         }
 
-        public Category GetCategory(long id)
+        public Smell GetSmell(long id)
         {
             return _repository.GetById(id);
         }
