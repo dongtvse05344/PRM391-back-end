@@ -39,7 +39,7 @@ namespace Bridge.Service
 
         public string GenerateFileName(string fileName)
         {
-            string result = new Random().Next(0, Int32.MaxValue) + DateTime.Now.ToString("dMyyyyhmmss") + CUT + fileName;
+            string result = new Random().Next(0, Int32.MaxValue) + DateTime.Now.ToString("dMyyyyhmmss") + CUT + fileName.Replace("+","");
             return result;
         }
 

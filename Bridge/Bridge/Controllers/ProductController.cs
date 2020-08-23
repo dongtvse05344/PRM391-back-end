@@ -133,6 +133,7 @@ namespace Bridge.Controllers
             if (product == null) return NotFound();
             product = model.Adapt(product);
             product.Smells = new List<ProductSmell>();
+            product.Smells.Clear();
             foreach (var smell in model.SmellIds)
             {
                 product.Smells.Add(new ProductSmell
