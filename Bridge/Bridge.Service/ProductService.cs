@@ -13,6 +13,7 @@ namespace Bridge.Service
         IQueryable<Product> GetProducts();
         Product GetProduct(long id);
         void CreateProduct(Product product);
+        void DeleteProduct(Product product);
         void SaveChanges();
     }
     public class ProductService : IProductService
@@ -29,6 +30,11 @@ namespace Bridge.Service
         public void CreateProduct(Product product)
         {
             _repository.Add(product);
+        }
+
+        public void DeleteProduct(Product product)
+        {
+            _repository.Delete(product);
         }
 
         public Product GetProduct(long id)

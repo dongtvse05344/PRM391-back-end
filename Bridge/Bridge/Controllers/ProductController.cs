@@ -152,30 +152,6 @@ namespace Bridge.Controllers
             }) ;
         }
 
-        [HttpPut("Admin")]
-        public ActionResult AdminPut(ProductUM model)
-        {
-            var product = _productService.GetProduct(model.Id);
-            if (product == null) return NotFound();
-            product = model.Adapt(product);
-            product.Smells = new List<ProductSmell>();
-            product.Smells.Clear();
-            foreach (var smell in model.SmellIds)
-            {
-                product.Smells.Add(new ProductSmell
-                {
-                    ProductId = product.Id,
-                    SmellId = smell
-                });
-            }
-            _productService.SaveChanges();
-            return StatusCode(201, new
-            {
-                Id = product.Id
-            });
-        }
-
-
         [HttpGet("{id}")]
         public ActionResult GetById(long id)
         {
@@ -238,7 +214,7 @@ namespace Bridge.Controllers
             List<ProductRatingVM> result = new List<ProductRatingVM>();
             foreach (var orderDetail in product.OrderDetails)
             {
-                if(orderDetail.Star != null)
+                if (orderDetail.Star != null)
                 {
                     ProductRatingVM item = orderDetail.Adapt<ProductRatingVM>();
                     item.Rate = orderDetail.Star.Value;
@@ -246,11 +222,11 @@ namespace Bridge.Controllers
                     result.Add(item);
                 }
             }
-            if(result.Count >0)
+            if (result.Count > 0)
             {
                 var rate = result.Sum(_ => _.Rate) / result.Count;
                 var votes = result.Count;
-                result.Add(new ProductRatingVM { Rate = rate, Comment = votes +" votes" }) ; 
+                result.Add(new ProductRatingVM { Rate = rate, Comment = votes + " votes" });
             }
             return Ok(result);
         }
@@ -260,9 +236,9 @@ namespace Bridge.Controllers
         {
             OrderDetail orderDetail = _orderDetailService.GetOrderDetail(model.OrderDetailId);
             if (orderDetail == null) return NotFound();
-            if (orderDetail.Order.CurrentStatus != (int)OrderCurrentStatus.done 
-                || orderDetail.Comment != null 
-                || model.Rate > 5 
+            if (orderDetail.Order.CurrentStatus != (int)OrderCurrentStatus.done
+                || orderDetail.Comment != null
+                || model.Rate > 5
                 || model.Rate < 0)
             {
                 return BadRequest();
@@ -273,5 +249,37 @@ namespace Bridge.Controllers
             return Ok();
         }
 
+        [HttpPut("Admin")]
+        public ActionResult AdminPut(ProductUM model)
+        {
+            var product = _productService.GetProduct(model.Id);
+            if (product == null) return NotFound();
+            product = model.Adapt(product);
+            product.Smells = new List<ProductSmell>();
+            product.Smells.Clear();
+            foreach (var smell in model.SmellIds)
+            {
+                product.Smells.Add(new ProductSmell
+                {
+                    ProductId = product.Id,
+                    SmellId = smell
+                });
+            }
+            _productService.SaveChanges();
+            return StatusCode(201, new
+            {
+                Id = product.Id
+            });
+        }
+
+        [HttpDelete("Admin/{id}")]
+        public ActionResult AdminDelete(long id)
+        {
+            var product = _productService.GetProduct(id);
+            if (product == null) return NotFound();
+
+            _productService.DeleteProduct(product);
+            return Ok();
+        }
     }
 }
