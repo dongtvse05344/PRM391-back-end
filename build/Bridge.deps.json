@@ -27,13 +27,15 @@
           "Bridge.Data": "1.0.0",
           "Bridge.Model": "1.0.0",
           "Bridge.Service": "1.0.0",
+          "Bridge.Util": "1.0.0",
           "Mapster": "5.0.0",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Identity": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.4",
-          "NSwag.AspNetCore": "11.20.1"
+          "NSwag.AspNetCore": "11.20.1",
+          "PushSharp.Core": "1.0.2"
         },
         "runtime": {
           "Bridge.dll": {}
@@ -449,6 +451,50 @@
         },
         "compile": {
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
+        }
+      },
+      "PushSharp.Core/1.0.2": {
+        "dependencies": {
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/PushSharp.Amazon.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netstandard2.0/PushSharp.Apple.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netstandard2.0/PushSharp.Blackberry.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netstandard2.0/PushSharp.Common.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netstandard2.0/PushSharp.Firefox.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netstandard2.0/PushSharp.Google.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          },
+          "lib/netstandard2.0/PushSharp.Windows.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/PushSharp.Amazon.dll": {},
+          "lib/netstandard2.0/PushSharp.Apple.dll": {},
+          "lib/netstandard2.0/PushSharp.Blackberry.dll": {},
+          "lib/netstandard2.0/PushSharp.Common.dll": {},
+          "lib/netstandard2.0/PushSharp.Firefox.dll": {},
+          "lib/netstandard2.0/PushSharp.Google.dll": {},
+          "lib/netstandard2.0/PushSharp.Windows.dll": {}
         }
       },
       "Remotion.Linq/2.2.0": {
@@ -4072,6 +4118,13 @@
       "sha512": "sha512-qbXaB76XYUVLocLBs8Z9TS/ERGK2wm797feO+0JEPFvT7o7MRadOR77mqaSD4J1k8G+DlZQyq+MlkCuxrkr3ag==",
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
+    },
+    "PushSharp.Core/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-q1xyVhAsOsn228Wlv4FKyUPiNRFZdBtcH7GtNsfKTymOs2ES726mLZgUAze0Z528UCn3WAXnS31S8gB36NDzsA==",
+      "path": "pushsharp.core/1.0.2",
+      "hashPath": "pushsharp.core.1.0.2.nupkg.sha512"
     },
     "Remotion.Linq/2.2.0": {
       "type": "package",
