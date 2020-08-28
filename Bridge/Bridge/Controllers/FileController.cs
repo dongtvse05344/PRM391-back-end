@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Bridge.Model;
 using Bridge.Service;
 using Bridge.Util;
+using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Bridge.Controllers
 {
@@ -17,12 +19,14 @@ namespace Bridge.Controllers
         private readonly IFileService _fileService;
         private readonly IProductService _productService;
         private readonly ICollectionService _collectionService;
+        private readonly ICloudStorage _cloudStorage;
 
-        public FileController(IFileService fileService, IProductService productService,ICollectionService collectionService)
+        public FileController(IFileService fileService, IProductService productService,ICollectionService collectionService, ICloudStorage cloudStorage)
         {
             _fileService = fileService;
             _productService = productService;
             _collectionService = collectionService;
+            _cloudStorage = cloudStorage;
         }
 
         [HttpGet("Image")]
@@ -51,6 +55,17 @@ namespace Bridge.Controllers
             product.Images.Add(new ProductImage { ProductId = id, FilePath = filePath, IsHighLight = isHighlight });
             _productService.SaveChanges();
             return Ok();
+
+
+
+            #region Huy Code new
+            //string fileNameForStorage = _fileService.GenerateFileName(image.FileName);
+            //string ImageUrl = await _cloudStorage.UploadFileAsync(image, fileNameForStorage);
+            //if (product.Images == null) product.Images = new List<ProductImage>();
+            //product.Images.Add(new ProductImage { ProductId = id, FilePath = ImageUrl, IsHighLight = isHighlight });
+            //_productService.SaveChanges();
+            //return Ok();
+            #endregion
         }
 
         [HttpPost("CollectionImage")]
@@ -64,5 +79,6 @@ namespace Bridge.Controllers
             _productService.SaveChanges();
             return Ok();
         }
+
     }
 }

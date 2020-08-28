@@ -58,6 +58,7 @@ namespace Bridge
             services.AddTransient<ICategoryService, CategoryService>();
 
             services.AddTransient<IFileService,FileService>();
+            services.AddTransient<ICloudStorage, GoogleCloudStorage>();
 
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductService, ProductService>();
@@ -195,7 +196,9 @@ namespace Bridge
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
+                app.UseDeveloperExceptionPage();
+
             }
 
 

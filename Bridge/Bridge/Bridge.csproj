@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="3.2.0" />
     <PackageReference Include="Mapster" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
@@ -18,10 +19,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="NSwag.AspNetCore" Version="11.20.1" />
     <PackageReference Include="PushSharp.Core" Version="1.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Bridge.Data\Bridge.Data.csproj" />
+	<ProjectReference Include="..\Bridge.Data\Bridge.Data.csproj" />
     <ProjectReference Include="..\Bridge.Model\Bridge.Model.csproj" />
     <ProjectReference Include="..\Bridge.Service\Bridge.Service.csproj" />
     <ProjectReference Include="..\Bridge.Util\Bridge.Util.csproj" />
