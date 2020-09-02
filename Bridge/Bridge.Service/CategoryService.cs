@@ -12,6 +12,7 @@ namespace Bridge.Service
     {
         IQueryable<Category> GetCategories();
         Category GetCategory(long id);
+        void CreateCategory(Category category);
         void SaveChanges();
     }
     public class CategoryService : ICategoryService
@@ -33,6 +34,10 @@ namespace Bridge.Service
         public Category GetCategory(long id)
         {
             return _repository.GetById(id);
+        }
+        public void CreateCategory(Category category)
+        {
+            _repository.Add(category);
         }
 
         public void SaveChanges()

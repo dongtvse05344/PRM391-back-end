@@ -19,13 +19,15 @@ namespace Bridge.Controllers
         private readonly IFileService _fileService;
         private readonly IProductService _productService;
         private readonly ICollectionService _collectionService;
+        private readonly ICategoryService _categoryService;
         private readonly ICloudStorage _cloudStorage;
 
-        public FileController(IFileService fileService, IProductService productService,ICollectionService collectionService, ICloudStorage cloudStorage)
+        public FileController(IFileService fileService, IProductService productService,ICollectionService collectionService, ICategoryService categoryService, ICloudStorage cloudStorage)
         {
             _fileService = fileService;
             _productService = productService;
             _collectionService = collectionService;
+            _categoryService = categoryService;
             _cloudStorage = cloudStorage;
         }
 
@@ -77,6 +79,16 @@ namespace Bridge.Controllers
             var filePath = await _fileService.SaveFile(FilePath.Collection, image);
             collection.Banner = filePath;
             _productService.SaveChanges();
+            return Ok();
+        }
+        [HttpPost("CategoryImage")]
+        public async Task<ActionResult> UploadCategoryImage([FromForm] IFormFile image, long id)
+        {
+            var category = _categoryService.GetCategory(id);
+            if (category == null || category.Logo != null) return BadRequest();
+            var filePath = await _fileService.SaveFile(FilePath.Category, image);
+            category.Logo = filePath;
+            _categoryService.SaveChanges();
             return Ok();
         }
 

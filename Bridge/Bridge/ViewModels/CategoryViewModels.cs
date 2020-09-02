@@ -11,4 +11,8 @@ namespace Bridge.ViewModels
         public String Name { get; set; }
         public String Logo { get; set; }
     }
+    public class CategoryCM
+    {
+        public String Name { get; set; }
+    }
 }

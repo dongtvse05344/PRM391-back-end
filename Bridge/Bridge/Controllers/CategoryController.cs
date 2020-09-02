@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Bridge.Model;
 using Bridge.Service;
 using Bridge.Util;
 using Bridge.ViewModels;
@@ -25,7 +27,7 @@ namespace Bridge.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            var categories = _categoryService.GetCategories().Select(c=>c.Adapt<CategoryVM>());
+            var categories = _categoryService.GetCategories().Select(c => c.Adapt<CategoryVM>());
             return Ok(categories);
         }
 
@@ -47,5 +49,17 @@ namespace Bridge.Controllers
             }
             return Ok(result);
         }
+        [HttpPost]
+        public ActionResult CreateCategory(Category category)
+        {
+            _categoryService.CreateCategory(category);
+            _categoryService.SaveChanges();
+            return StatusCode(
+                201, new
+                {
+                    Id = category.Id
+                });
+        }
+
     }
 }

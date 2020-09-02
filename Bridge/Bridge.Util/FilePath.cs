@@ -8,5 +8,7 @@ namespace Bridge.Util
     {
         public static String Product = "files/images/products/";
         public static String Collection = "files/images/collections/";
+        public static String Category = "files/images/categories/";
+
     }
 }
